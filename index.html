@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of the Council: The Editor's Quest</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            overflow-x: hidden;
+        }
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+        .font-mono-code {
+            font-family: 'Space Mono', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #161b22;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+        /* Glassmorphism card */
+        .glass-panel {
+            background: rgba(22, 27, 34, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-panel-glow {
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
+        }
+        /* Highlight colors for level 1 */
+        .highlight-thesis {
+            background-color: rgba(239, 68, 68, 0.25);
+            border-left: 4px solid #ef4444;
+        }
+        .highlight-arguments {
+            background-color: rgba(234, 179, 8, 0.25);
+            border-left: 4px solid #eab308;
+        }
+        .highlight-recommendation {
+            background-color: rgba(34, 197, 94, 0.25);
+            border-left: 4px solid #22c55e;
+        }
+        /* Pulse Animation */
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+        .animate-pulse-subtle {
+            animation: pulse-subtle 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+    <header class="border-b border-gray-800 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
+                    <i class="fa-solid fa-newspaper text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-cinzel text-lg md:text-xl font-bold tracking-wider text-cyan-400">ECHOES OF THE COUNCIL</h1>
+                    <p class="text-xs text-gray-400 tracking-widest font-mono-code uppercase">The Editor's Quest • Class 12 English</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="btn-codex" onclick="openCodexModal()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-md">
+                    <i class="fa-solid fa-book-bookmark text-cyan-400"></i>
+                    <span class="hidden sm:inline">Codex Rules</span>
+                </button>
+                <div class="bg-slate-900 border border-gray-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-amber-400"></i>
+                    <span class="text-xs text-gray-400 uppercase tracking-wider hidden sm:inline">Reputation:</span>
+                    <span id="header-reputation" class="font-mono-code font-bold text-amber-400">100%</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- VIEW 1: INTRO & QUEST BRIEFING -->
+        <section id="view-intro" class="glass-panel rounded-2xl p-6 md:p-10 my-4 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="inline-block bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-mono-code uppercase px-3 py-1 rounded-full mb-4">
+                <i class="fa-solid fa-terminal mr-1"></i> Mission Directive Assigned
+            </div>
+
+            <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
+                Welcome, Chief Editor of <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">The Veridia Chronicle</span>
+            </h2>
+
+            <div class="space-y-4 text-gray-300 leading-relaxed text-sm md:text-base mb-8">
+                <p class="bg-slate-900/60 p-4 rounded-xl border-l-4 border-cyan-500 italic">
+                    "The city of Veridia is at a critical juncture. Debates on social media regulation, youth wellbeing, and environmental policy are overwhelming public council halls. Misinformation and emotional claims threaten rational policymaking."
+                </p>
+                <p>
+                    As Chief Editor, your duty is not merely to publish news, but to **critically dissect drafts**, distinguish substantiated claims from empty rhetoric, logically align arguments with impactful solutions, and make sure our publication sways public council votes towards logical action.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-slate-900/80 border border-red-500/20 p-4 rounded-xl">
+                    <div class="flex items-center gap-2 text-red-400 font-bold mb-2">
+                        <i class="fa-solid fa-bullseye"></i> 1. Structural Scrutiny
+                    </div>
+                    <p class="text-xs text-gray-400">Classify incoming drafts accurately into Thesis (issue/position), Arguments (proofs), and Recommendations (actions).</p>
+                </div>
+                <div class="bg-slate-900/80 border border-amber-500/20 p-4 rounded-xl">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold mb-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> 2. Deep Fact-Checking
+                    </div>
+                    <p class="text-xs text-gray-400">Extract essential facts and implicit reasoning to defend the article in public council interrogations.</p>
+                </div>
+                <div class="bg-slate-900/80 border border-emerald-500/20 p-4 rounded-xl">
+                    <div class="flex items-center gap-2 text-emerald-400 font-bold mb-2">
+                        <i class="fa-solid fa-key"></i> 3. Persuasive Language
+                    </div>
+                    <p class="text-xs text-gray-400">Detect powerful modal verbs and evaluative vocabulary that give Hortatory Exposition texts their persuasive edge.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-center justify-between border-t border-gray-800 pt-6">
+                <button onclick="openCodexModal()" class="w-full sm:w-auto text-gray-400 hover:text-white text-sm flex items-center justify-center gap-2 py-2 px-4">
+                    <i class="fa-solid fa-graduation-cap"></i> Review Hortatory Codex First
+                </button>
+                <button onclick="startGame()" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-extrabold px-8 py-3.5 rounded-xl shadow-lg shadow-cyan-500/20 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                    <span>START EDITOR'S QUEST</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <div id="level-stepper" class="hidden mb-6">
+            <div class="flex items-center justify-between max-w-xl mx-auto px-4">
+                <div id="step-1-badge" class="flex flex-col items-center gap-1 opacity-100">
+                    <div class="w-9 h-9 rounded-full bg-cyan-500 text-slate-950 font-bold flex items-center justify-center text-sm shadow-md">1</div>
+                    <span class="text-xs text-cyan-300 font-mono-code font-bold">Structure</span>
+                </div>
+                <div class="h-0.5 flex-1 bg-gray-800 mx-2" id="bar-1-2"></div>
+                <div id="step-2-badge" class="flex flex-col items-center gap-1 opacity-40">
+                    <div class="w-9 h-9 rounded-full bg-slate-800 text-gray-400 font-bold flex items-center justify-center text-sm border border-gray-700">2</div>
+                    <span class="text-xs text-gray-400 font-mono-code">Fact Check</span>
+                </div>
+                <div class="h-0.5 flex-1 bg-gray-800 mx-2" id="bar-2-3"></div>
+                <div id="step-3-badge" class="flex flex-col items-center gap-1 opacity-40">
+                    <div class="w-9 h-9 rounded-full bg-slate-800 text-gray-400 font-bold flex items-center justify-center text-sm border border-gray-700">3</div>
+                    <span class="text-xs text-gray-400 font-mono-code">Language</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: LEVEL 1 - THE ARTICLE SCANNER -->
+        <section id="view-level1" class="hidden glass-panel rounded-2xl p-6 md:p-8 my-4 shadow-xl">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-6 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs text-cyan-400 font-mono-code font-semibold uppercase tracking-wider">Level 1 • Structural Analysis</span>
+                    <h3 class="font-cinzel text-2xl font-bold text-white">The Article Scanner</h3>
+                </div>
+                <p class="text-xs text-gray-400 max-w-md">Assign each text block to its correct Hortatory Exposition component: <span class="text-red-400 font-bold">Thesis</span>, <span class="text-amber-400 font-bold">Arguments</span>, or <span class="text-emerald-400 font-bold">Recommendation</span>.</p>
+            </div>
+
+            <!-- Article Draft Card -->
+            <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-5 mb-6 shadow-inner">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-xs font-mono-code text-cyan-400/80 uppercase">Draft Headline #804</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2.5 py-1 rounded-md border border-gray-700">Topic: High School Schedule Reform</span>
+                </div>
+                <h4 class="font-cinzel text-xl font-bold text-slate-100 mb-4">Why High Schools Should Implement Later Start Times</h4>
+
+                <!-- Text Blocks to Categorize -->
+                <div class="space-y-4" id="level1-blocks-container">
+                    <!-- Block A -->
+                    <div id="block-card-0" class="p-4 rounded-xl border border-gray-800 bg-slate-950 transition-all">
+                        <div class="text-xs font-mono-code text-gray-400 mb-2 flex justify-between items-center">
+                            <span>SECTION ALPHA</span>
+                            <span id="block-tag-0" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-gray-800 text-gray-400">Unclassified</span>
+                        </div>
+                        <p class="text-sm md:text-base text-gray-200 leading-relaxed mb-3" id="text-block-0">
+                            Adolescents around the world are facing a chronic sleep deprivation epidemic, which severely impacts their academic performance and mental health. Therefore, high schools should adjust their schedule to start no earlier than 8:30 AM.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2 border-t border-gray-900">
+                            <span class="text-xs text-gray-500 self-center mr-2">Assign to:</span>
+                            <button onclick="classifyBlock(0, 'Thesis')" class="px-3 py-1 rounded-lg text-xs font-bold bg-red-950/60 text-red-300 border border-red-800/50 hover:bg-red-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span> Thesis
+                            </button>
+                            <button onclick="classifyBlock(0, 'Arguments')" class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-950/60 text-amber-300 border border-amber-800/50 hover:bg-amber-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span> Arguments
+                            </button>
+                            <button onclick="classifyBlock(0, 'Recommendation')" class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-800/50 hover:bg-emerald-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Recommendation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Block B -->
+                    <div id="block-card-1" class="p-4 rounded-xl border border-gray-800 bg-slate-950 transition-all">
+                        <div class="text-xs font-mono-code text-gray-400 mb-2 flex justify-between items-center">
+                            <span>SECTION BETA</span>
+                            <span id="block-tag-1" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-gray-800 text-gray-400">Unclassified</span>
+                        </div>
+                        <p class="text-sm md:text-base text-gray-200 leading-relaxed mb-3" id="text-block-1">
+                            Firstly, biological shifts during puberty cause teenagers to naturally fall asleep later, making early mornings scientifically detrimental to their circadian rhythm. Secondly, studies show that schools adopting later start times report higher graduation rates, better attendance, and reduced car accidents among teen drivers.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2 border-t border-gray-900">
+                            <span class="text-xs text-gray-500 self-center mr-2">Assign to:</span>
+                            <button onclick="classifyBlock(1, 'Thesis')" class="px-3 py-1 rounded-lg text-xs font-bold bg-red-950/60 text-red-300 border border-red-800/50 hover:bg-red-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span> Thesis
+                            </button>
+                            <button onclick="classifyBlock(1, 'Arguments')" class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-950/60 text-amber-300 border border-amber-800/50 hover:bg-amber-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span> Arguments
+                            </button>
+                            <button onclick="classifyBlock(1, 'Recommendation')" class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-800/50 hover:bg-emerald-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Recommendation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Block C -->
+                    <div id="block-card-2" class="p-4 rounded-xl border border-gray-800 bg-slate-950 transition-all">
+                        <div class="text-xs font-mono-code text-gray-400 mb-2 flex justify-between items-center">
+                            <span>SECTION GAMMA</span>
+                            <span id="block-tag-2" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-gray-800 text-gray-400">Unclassified</span>
+                        </div>
+                        <p class="text-sm md:text-base text-gray-200 leading-relaxed mb-3" id="text-block-2">
+                            In conclusion, keeping school start times too early harms students' well-being and potential. Education boards and school leaders ought to revise morning schedules immediately to ensure a healthier learning environment.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2 border-t border-gray-900">
+                            <span class="text-xs text-gray-500 self-center mr-2">Assign to:</span>
+                            <button onclick="classifyBlock(2, 'Thesis')" class="px-3 py-1 rounded-lg text-xs font-bold bg-red-950/60 text-red-300 border border-red-800/50 hover:bg-red-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span> Thesis
+                            </button>
+                            <button onclick="classifyBlock(2, 'Arguments')" class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-950/60 text-amber-300 border border-amber-800/50 hover:bg-amber-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span> Arguments
+                            </button>
+                            <button onclick="classifyBlock(2, 'Recommendation')" class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-800/50 hover:bg-emerald-900/80 transition-all flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Recommendation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Box L1 -->
+            <div id="l1-feedback" class="hidden rounded-xl p-4 mb-6 border text-sm transition-all"></div>
+
+            <div class="flex justify-end">
+                <button id="btn-submit-l1" onclick="submitLevel1()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 flex items-center gap-2">
+                    <span>Validate Classifications</span>
+                    <i class="fa-solid fa-check"></i>
+                </button>
+                <button id="btn-next-l1" onclick="goToLevel2()" class="hidden bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg flex items-center gap-2">
+                    <span>Proceed to Fact-Check</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="view-level2" class="hidden glass-panel rounded-2xl p-6 md:p-8 my-4 shadow-xl">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-6 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs text-amber-400 font-mono-code font-semibold uppercase tracking-wider">Level 2 • Content & Detail Comprehension</span>
+                    <h3 class="font-cinzel text-2xl font-bold text-white">Fact-Checking & Council Interrogation</h3>
+                </div>
+                <p class="text-xs text-gray-400 max-w-md">Council members are questioning your editorial claims. Answer their inquiry based on facts extracted from the draft text.</p>
+            </div>
+
+            <!-- Quiz Stepper indicator -->
+            <div class="flex items-center gap-2 mb-4 text-xs font-mono-code text-gray-400">
+                <span>QUESTION <span id="q-curr">1</span> OF <span id="q-total">3</span></span>
+                <div class="flex-1 bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="q-progress-bar" class="bg-amber-400 h-full w-1/3 transition-all"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 md:p-6 mb-6">
+                <!-- Council Interrogator UI -->
+                <div class="flex items-center gap-3 mb-4 p-3 bg-slate-950 rounded-lg border border-gray-800">
+                    <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold border border-amber-500/40">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-xs text-gray-400 uppercase font-mono-code">Council Interrogator</h5>
+                        <p class="text-sm font-semibold text-amber-300" id="interrogator-title">Council Representative Vane</p>
+                    </div>
+                </div>
+
+                <p class="text-base md:text-lg text-slate-100 font-medium mb-6 leading-snug" id="l2-question-text">
+                    Loading question...
+                </p>
+
+                <div class="space-y-3" id="l2-options-container">
+                    <!-- Options populated via JS -->
+                </div>
+            </div>
+
+            <!-- Feedback Box L2 -->
+            <div id="l2-feedback" class="hidden rounded-xl p-4 mb-6 border text-sm transition-all"></div>
+
+            <div class="flex justify-end gap-3">
+                <button id="btn-next-q2" onclick="nextQuestionL2()" class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2">
+                    <span>Next Question</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button id="btn-finish-l2" onclick="goToLevel3()" class="hidden bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg flex items-center gap-2">
+                    <span>Proceed to Level 3</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="view-level3" class="hidden glass-panel rounded-2xl p-6 md:p-8 my-4 shadow-xl">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-6 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs text-emerald-400 font-mono-code font-semibold uppercase tracking-wider">Level 3 • Linguistic Mastery</span>
+                    <h3 class="font-cinzel text-2xl font-bold text-white">Language Feature Detective</h3>
+                </div>
+                <p class="text-xs text-gray-400 max-w-md">Identify modal verbs and evaluative words in Hortatory texts to strengthen persuasive punch.</p>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 md:p-6 mb-6">
+                <p class="text-sm text-gray-300 mb-4">
+                    <i class="fa-solid fa-hand-pointer text-emerald-400 mr-1"></i>
+                    Click on all the **Modal Verbs** (expressing advice/necessity like <em class="text-emerald-300 font-semibold">should, ought to, must</em>) and **Evaluative Words** (expressing judgment like <em class="text-emerald-300 font-semibold">critical, harmful, crucial</em>) in the paragraph below:
+                </p>
+
+                <!-- Interactive Word Selector Canvas -->
+                <div class="p-5 bg-slate-950 rounded-xl border border-gray-800 leading-loose text-base md:text-lg font-medium text-slate-200 select-none" id="l3-word-container">
+                    <!-- Text tokenized by JS -->
+                </div>
+
+                <div class="flex items-center gap-4 mt-4 text-xs font-mono-code text-gray-400">
+                    <div>Selected: <span id="l3-selected-count" class="text-emerald-400 font-bold">0</span> targets</div>
+                    <div>• Total key features to find: <span class="text-gray-200 font-bold">5</span></div>
+                </div>
+            </div>
+
+            <!-- Feedback Box L3 -->
+            <div id="l3-feedback" class="hidden rounded-xl p-4 mb-6 border text-sm transition-all"></div>
+
+            <div class="flex justify-end">
+                <button id="btn-submit-l3" onclick="submitLevel3()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                    <span>Validate Linguistic Targets</span>
+                    <i class="fa-solid fa-calculator"></i>
+                </button>
+                <button id="btn-finish-game" onclick="showScoreboard()" class="hidden bg-gradient-to-r from-emerald-400 to-cyan-500 hover:from-emerald-300 hover:to-cyan-400 text-slate-950 font-extrabold px-8 py-3 rounded-xl transition-all shadow-xl flex items-center gap-2">
+                    <span>Generate Final Reputation Scorecard</span>
+                    <i class="fa-solid fa-trophy"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="view-scoreboard" class="hidden glass-panel rounded-2xl p-6 md:p-10 my-4 shadow-2xl relative overflow-hidden">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <div class="inline-block bg-cyan-950/80 border border-cyan-500/30 text-cyan-300 text-xs font-mono-code uppercase px-3 py-1 rounded-full mb-3">
+                    Evaluation Complete • The Veridia Chronicle
+                </div>
+                <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white">Editor's Reputation Scorecard</h2>
+            </div>
+
+            <!-- Score Badge & Total -->
+            <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-gray-800 rounded-2xl p-6 mb-8 text-center relative">
+                <div class="text-6xl md:text-7xl font-mono-code font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-amber-300 to-emerald-400 mb-2" id="final-score-percent">
+                    0%
+                </div>
+                <div class="text-sm font-mono-code uppercase tracking-widest text-gray-400 mb-4">Total Editorial Index</div>
+
+                <!-- Badge Display -->
+                <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border shadow-lg text-sm md:text-base font-bold mb-2" id="badge-container">
+                    <i class="fa-solid fa-award text-lg" id="badge-icon"></i>
+                    <span id="badge-title">Evaluating...</span>
+                </div>
+                <p class="text-xs text-gray-400 italic max-w-md mx-auto" id="badge-desc">Analyzing editorial impact on public council decisions.</p>
+            </div>
+
+            <!-- Breakdown Per Category -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-slate-900/80 border border-gray-800 rounded-xl p-4">
+                    <div class="flex justify-between items-center text-xs font-mono-code mb-2">
+                        <span class="text-gray-400">STRUCTURE (L1)</span>
+                        <span id="score-l1" class="text-red-400 font-bold">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden">
+                        <div id="bar-score-l1" class="bg-red-500 h-full w-0 transition-all duration-1000"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-900/80 border border-gray-800 rounded-xl p-4">
+                    <div class="flex justify-between items-center text-xs font-mono-code mb-2">
+                        <span class="text-gray-400">FACT-CHECK (L2)</span>
+                        <span id="score-l2" class="text-amber-400 font-bold">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden">
+                        <div id="bar-score-l2" class="bg-amber-400 h-full w-0 transition-all duration-1000"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-900/80 border border-gray-800 rounded-xl p-4">
+                    <div class="flex justify-between items-center text-xs font-mono-code mb-2">
+                        <span class="text-gray-400">LANGUAGE (L3)</span>
+                        <span id="score-l3" class="text-emerald-400 font-bold">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden">
+                        <div id="bar-score-l3" class="bg-emerald-400 h-full w-0 transition-all duration-1000"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnostic Feedback Panel -->
+            <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-6 mb-8 space-y-4">
+                <h4 class="font-cinzel text-lg font-bold text-cyan-300 flex items-center gap-2 border-b border-gray-800 pb-2">
+                    <i class="fa-solid fa-clipboard-check text-cyan-400"></i> Diagnostic Feedback & Editorial Review
+                </h4>
+
+                <div id="diagnostic-content" class="space-y-4 text-sm text-gray-300">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="resetGame()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 font-bold px-6 py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Re-play Quest & Improve Score
+                </button>
+                <button onclick="openCodexModal()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-6 py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-book"></i> Review Codex Notes
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="codex-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel border border-cyan-500/30 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-gray-800 flex justify-between items-center bg-slate-900/90">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-book-bookmark text-cyan-400 text-xl"></i>
+                    <div>
+                        <h3 class="font-cinzel text-lg font-bold text-white">Hortatory Exposition Knowledge Codex</h3>
+                        <p class="text-xs text-gray-400 font-mono-code">Class 12 English Master Guide</p>
+                    </div>
+                </div>
+                <button onclick="closeCodexModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-gray-400 hover:text-white flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Scrollable Content -->
+            <div class="p-6 overflow-y-auto space-y-6 text-sm leading-relaxed">
+                <!-- What is it -->
+                <div class="bg-slate-900/70 p-4 rounded-xl border border-gray-800">
+                    <h4 class="font-bold text-cyan-300 text-base mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-cyan-400"></i> Purpose of Hortatory Exposition
+                    </h4>
+                    <p class="text-gray-300">
+                        A Hortatory Exposition text aims to persuade the reader/listener that something <strong class="text-cyan-300">should or should not be done</strong>. Unlike Analytical Exposition (which only proves a thesis is true), Hortatory texts always conclude with a concrete call to action or recommendation.
+                    </p>
+                </div>
+
+                <!-- Three Pillar Structure -->
+                <div>
+                    <h4 class="font-bold text-white text-base mb-3 font-cinzel">The 3 Structural Pillars</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="p-3.5 rounded-xl bg-red-950/30 border border-red-500/30">
+                            <span class="text-xs font-mono-code text-red-400 font-bold block mb-1">1. THESIS</span>
+                            <p class="text-xs text-gray-300">Introduces the controversial issue or topic and clearly states the author's official stance/position.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30">
+                            <span class="text-xs font-mono-code text-amber-400 font-bold block mb-1">2. ARGUMENTS</span>
+                            <p class="text-xs text-gray-300">Provides logical reasons, research data, expert evidence, or facts to back up the author's stance.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
+                            <span class="text-xs font-mono-code text-emerald-400 font-bold block mb-1">3. RECOMMENDATION</span>
+                            <p class="text-xs text-gray-300">Presents stronger recommendations/solutions regarding what <strong>should / should not</strong> happen or be done.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Language Features -->
+                <div class="bg-slate-900/70 p-4 rounded-xl border border-gray-800">
+                    <h4 class="font-bold text-cyan-300 text-base mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-code text-cyan-400"></i> Key Linguistic Features
+                    </h4>
+                    <ul class="list-disc list-inside space-y-1 text-xs md:text-sm text-gray-300">
+                        <li><strong class="text-white">Modal Verbs:</strong> <em>should, ought to, must, need to</em> (indicates urgency or recommendation).</li>
+                        <li><strong class="text-white">Evaluative Language:</strong> <em>critical, crucial, harmful, beneficial, alarming</em> (adds judgment).</li>
+                        <li><strong class="text-white">Connectives / Transitions:</strong> <em>firstly, furthermore, however, therefore, in conclusion</em>.</li>
+                        <li><strong class="text-white">Simple Present Tense:</strong> Stating current facts and general truths.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-gray-800 bg-slate-900/90 text-right">
+                <button onclick="closeCodexModal()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-2 rounded-lg text-sm transition-all">
+                    Got it, Back to Mission
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-gray-800 py-4 text-center text-xs text-gray-500 bg-slate-950/80">
+        <p>Echoes of the Council • Designed for Class 12 Senior High School English Education</p>
+    </footer>
+
+    <script>
+        // Game State Variables
+        let gameState = {
+            level1: {
+                userAssignments: [null, null, null], // Block index -> 'Thesis'|'Arguments'|'Recommendation'
+                correctAssignments: ['Thesis', 'Arguments', 'Recommendation'],
+                score: 0,
+                completed: false
+            },
+            level2: {
+                currentQuestion: 0,
+                score: 0,
+                userAnswers: [],
+                completed: false,
+                questions: [
+                    {
+                        interrogator: "Representative Vane (Health Committee)",
+                        question: "Why does the draft argue that current morning start times are scientifically detrimental to teenager health?",
+                        options: [
+                            "Because adolescents refuse to practice morning exercise.",
+                            "Because biological puberty shifts cause teens to fall asleep later, disrupting circadian rhythms.",
+                            "Because high school teachers prefer teaching late in the afternoon.",
+                            "Because students spend all night playing online mobile games."
+                        ],
+                        correct: 1,
+                        explanation: "The text explicitly states: 'biological shifts during puberty cause teenagers to naturally fall asleep later, making early mornings scientifically detrimental to their circadian rhythm.'"
+                    },
+                    {
+                        interrogator: "Council Director Thorne (Education Board)",
+                        question: "According to the draft, what evidence supports schools that implemented later start times?",
+                        options: [
+                            "Lower electricity bills and shorter teaching hours.",
+                            "Free breakfast programs for low-income families.",
+                            "Higher graduation rates, better attendance, and reduced teen car accidents.",
+                            "Increased sports competition victories across districts."
+                        ],
+                        correct: 2,
+                        explanation: "The text mentions empirical results: 'studies show that schools adopting later start times report higher graduation rates, better attendance, and reduced car accidents among teen drivers.'"
+                    },
+                    {
+                        interrogator: "Chief Editor's Assistant",
+                        question: "Identify the author's main Recommendation in Section Gamma. What specific action is demanded?",
+                        options: [
+                            "Parents should ban teenagers from owning mobile devices.",
+                            "Schools must eliminate all morning exams and homework.",
+                            "Education boards and school leaders ought to revise morning schedules immediately.",
+                            "Students must sleep at least 12 hours every weekend."
+                        ],
+                        correct: 2,
+                        explanation: "Section Gamma highlights recommendation phrasing: 'Education boards and school leaders ought to revise morning schedules immediately'."
+                    }
+                ]
+            },
+            level3: {
+                textTokens: [
+                    { word: "Education", isTarget: false },
+                    { word: "boards", isTarget: false },
+                    { word: "must", isTarget: true, type: "modal" },
+                    { word: "take", isTarget: false },
+                    { word: "action.", isTarget: false },
+                    { word: "Early", isTarget: false },
+                    { word: "schedules", isTarget: false },
+                    { word: "are", isTarget: false },
+                    { word: "harmful", isTarget: true, type: "evaluative" },
+                    { word: "to", isTarget: false },
+                    { word: "student", isTarget: false },
+                    { word: "wellness.", isTarget: false },
+                    { word: "Therefore,", isTarget: false },
+                    { word: "principals", isTarget: false },
+                    { word: "ought to", isTarget: true, type: "modal" },
+                    { word: "implement", isTarget: false },
+                    { word: "later", isTarget: false },
+                    { word: "hours.", isTarget: false },
+                    { word: "This", isTarget: false },
+                    { word: "crucial", isTarget: true, type: "evaluative" },
+                    { word: "reform", isTarget: false },
+                    { word: "should", isTarget: true, type: "modal" },
+                    { word: "be", isTarget: false },
+                    { word: "adopted", isTarget: false },
+                    { word: "nationwide.", isTarget: false }
+                ],
+                selectedIndices: [],
+                score: 0,
+                completed: false
+            }
+        };
+
+        // DOM Element Cache
+        const views = {
+            intro: document.getElementById('view-intro'),
+            l1: document.getElementById('view-level1'),
+            l2: document.getElementById('view-level2'),
+            l3: document.getElementById('view-level3'),
+            scoreboard: document.getElementById('view-scoreboard')
+        };
+
+        // Navigation Stepper Update
+        function updateStepper(step) {
+            document.getElementById('level-stepper').classList.remove('hidden');
+            const b1 = document.getElementById('step-1-badge');
+            const b2 = document.getElementById('step-2-badge');
+            const b3 = document.getElementById('step-3-badge');
+            const bar1 = document.getElementById('bar-1-2');
+            const bar2 = document.getElementById('bar-2-3');
+
+            b1.className = "flex flex-col items-center gap-1 opacity-40";
+            b2.className = "flex flex-col items-center gap-1 opacity-40";
+            b3.className = "flex flex-col items-center gap-1 opacity-40";
+            bar1.className = "h-0.5 flex-1 bg-gray-800 mx-2";
+            bar2.className = "h-0.5 flex-1 bg-gray-800 mx-2";
+
+            if (step >= 1) {
+                b1.className = "flex flex-col items-center gap-1 opacity-100";
+                b1.querySelector('div').className = "w-9 h-9 rounded-full bg-cyan-500 text-slate-950 font-bold flex items-center justify-center text-sm shadow-md";
+            }
+            if (step >= 2) {
+                bar1.className = "h-0.5 flex-1 bg-cyan-500 mx-2";
+                b2.className = "flex flex-col items-center gap-1 opacity-100";
+                b2.querySelector('div').className = "w-9 h-9 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center text-sm shadow-md";
+            }
+            if (step >= 3) {
+                bar2.className = "h-0.5 flex-1 bg-amber-500 mx-2";
+                b3.className = "flex flex-col items-center gap-1 opacity-100";
+                b3.querySelector('div').className = "w-9 h-9 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-sm shadow-md";
+            }
+        }
+
+        // Switch active view safely
+        function showView(viewKey) {
+            Object.keys(views).forEach(key => {
+                views[key].classList.add('hidden');
+            });
+            views[viewKey].classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Game Start Trigger
+        function startGame() {
+            updateStepper(1);
+            showView('l1');
+        }
+
+        // Modal Controls
+        function openCodexModal() {
+            document.getElementById('codex-modal').classList.remove('hidden');
+        }
+        function closeCodexModal() {
+            document.getElementById('codex-modal').classList.add('hidden');
+        }
+
+        // LEVEL 1 LOGIC: Categorization
+        function classifyBlock(blockIndex, category) {
+            gameState.level1.userAssignments[blockIndex] = category;
+            
+            const card = document.getElementById(`block-card-${blockIndex}`);
+            const tag = document.getElementById(`block-tag-${blockIndex}`);
+
+            // Reset classes
+            card.className = "p-4 rounded-xl border transition-all";
+            tag.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider";
+
+            if (category === 'Thesis') {
+                card.classList.add('highlight-thesis', 'border-red-500/50');
+                tag.classList.add('bg-red-500/30', 'text-red-300');
+                tag.innerText = "Assigned: Thesis";
+            } else if (category === 'Arguments') {
+                card.classList.add('highlight-arguments', 'border-amber-500/50');
+                tag.classList.add('bg-amber-500/30', 'text-amber-300');
+                tag.innerText = "Assigned: Arguments";
+            } else if (category === 'Recommendation') {
+                card.classList.add('highlight-recommendation', 'border-emerald-500/50');
+                tag.classList.add('bg-emerald-500/30', 'text-emerald-300');
+                tag.innerText = "Assigned: Recommendation";
+            }
+        }
+
+        function submitLevel1() {
+            const user = gameState.level1.userAssignments;
+            const correct = gameState.level1.correctAssignments;
+
+            if (user.includes(null)) {
+                showL1Feedback("warning", "<i class='fa-solid fa-triangle-exclamation mr-1'></i> Please assign all three text blocks to a structural category before submitting!");
+                return;
+            }
+
+            let correctCount = 0;
+            user.forEach((val, idx) => {
+                if (val === correct[idx]) correctCount++;
+            });
+
+            gameState.level1.score = Math.round((correctCount / 3) * 100);
+            gameState.level1.completed = true;
+
+            const fb = document.getElementById('l1-feedback');
+            if (correctCount === 3) {
+                showL1Feedback("success", `
+                    <div class='font-bold text-emerald-400 mb-1'><i class='fa-solid fa-circle-check mr-1'></i> Perfect Structural Classification! (100%)</div>
+                    <p class='text-xs text-gray-300'>Section Alpha is the <strong>Thesis</strong> (introduces the issue/stance), Section Beta contains <strong>Arguments</strong> (scientific and empirical proofs), and Section Gamma gives the <strong>Recommendation</strong> (urgent call to action using <em>ought to</em>).</p>
+                `);
+            } else {
+                showL1Feedback("error", `
+                    <div class='font-bold text-amber-400 mb-1'><i class='fa-solid fa-circle-xmark mr-1'></i> Structural Analysis Score: ${gameState.level1.score}%</div>
+                    <p class='text-xs text-gray-300'>Remember: <strong>Thesis</strong> introduces the problem/stance at the start. <strong>Arguments</strong> present research proofs/facts. <strong>Recommendation</strong> concludes with solutions or <em>should / ought to</em> actions!</p>
+                `);
+            }
+
+            document.getElementById('btn-submit-l1').classList.add('hidden');
+            document.getElementById('btn-next-l1').classList.remove('hidden');
+            updateHeaderScore();
+        }
+
+        function showL1Feedback(type, htmlContent) {
+            const fb = document.getElementById('l1-feedback');
+            fb.classList.remove('hidden', 'bg-red-950/40', 'border-red-500/40', 'bg-emerald-950/40', 'border-emerald-500/40', 'bg-amber-950/40', 'border-amber-500/40');
+            
+            if (type === "warning") fb.classList.add('bg-amber-950/40', 'border-amber-500/40', 'text-amber-200');
+            else if (type === "error") fb.classList.add('bg-red-950/40', 'border-red-500/40', 'text-red-200');
+            else fb.classList.add('bg-emerald-950/40', 'border-emerald-500/40', 'text-emerald-200');
+
+            fb.innerHTML = htmlContent;
+        }
+
+        function goToLevel2() {
+            updateStepper(2);
+            showView('l2');
+            renderLevel2Question();
+        }
+
+        // LEVEL 2 LOGIC: Fact Checking MCQ
+        function renderLevel2Question() {
+            const qIdx = gameState.level2.currentQuestion;
+            const q = gameState.level2.questions[qIdx];
+
+            document.getElementById('q-curr').innerText = qIdx + 1;
+            document.getElementById('q-total').innerText = gameState.level2.questions.length;
+            document.getElementById('q-progress-bar').style.width = `${((qIdx + 1) / gameState.level2.questions.length) * 100}%`;
+
+            document.getElementById('interrogator-title').innerText = q.interrogator;
+            document.getElementById('l2-question-text').innerText = q.question;
+
+            const container = document.getElementById('l2-options-container');
+            container.innerHTML = '';
+
+            document.getElementById('l2-feedback').classList.add('hidden');
+            document.getElementById('btn-next-q2').classList.add('hidden');
+            document.getElementById('btn-finish-l2').classList.add('hidden');
+
+            q.options.forEach((optText, optIdx) => {
+                const optBtn = document.createElement('button');
+                optBtn.className = "w-full text-left p-3.5 rounded-xl border border-gray-800 bg-slate-950 hover:border-amber-500/50 hover:bg-slate-900 transition-all text-sm text-gray-200 flex items-center justify-between group";
+                optBtn.id = `l2-opt-${optIdx}`;
+                optBtn.onclick = () => selectL2Answer(optIdx);
+                optBtn.innerHTML = `
+                    <span>${optText}</span>
+                    <i class="fa-regular fa-circle text-gray-600 group-hover:text-amber-400"></i>
+                `;
+                container.appendChild(optBtn);
+            });
+        }
+
+        function selectL2Answer(optIdx) {
+            const qIdx = gameState.level2.currentQuestion;
+            const q = gameState.level2.questions[qIdx];
+            const isCorrect = (optIdx === q.correct);
+
+            // Disable further clicks on options
+            const container = document.getElementById('l2-options-container');
+            const btns = container.querySelectorAll('button');
+            btns.forEach((btn, i) => {
+                btn.onclick = null;
+                if (i === q.correct) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border border-emerald-500/60 bg-emerald-950/40 text-sm text-emerald-200 font-medium flex items-center justify-between";
+                    btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-400";
+                } else if (i === optIdx && !isCorrect) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border border-red-500/60 bg-red-950/40 text-sm text-red-200 flex items-center justify-between";
+                    btn.querySelector('i').className = "fa-solid fa-circle-xmark text-red-400";
+                } else {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border border-gray-800/40 bg-slate-950/50 opacity-50 text-sm text-gray-400 flex items-center justify-between";
+                }
+            });
+
+            if (isCorrect) {
+                gameState.level2.userAnswers[qIdx] = true;
+                showL2Feedback(true, q.explanation);
+            } else {
+                gameState.level2.userAnswers[qIdx] = false;
+                showL2Feedback(false, q.explanation);
+            }
+
+            // Show appropriate next button
+            if (qIdx < gameState.level2.questions.length - 1) {
+                document.getElementById('btn-next-q2').classList.remove('hidden');
+            } else {
+                // Calculate L2 final score
+                const correctTotal = gameState.level2.userAnswers.filter(Boolean).length;
+                gameState.level2.score = Math.round((correctTotal / gameState.level2.questions.length) * 100);
+                gameState.level2.completed = true;
+                document.getElementById('btn-finish-l2').classList.remove('hidden');
+                updateHeaderScore();
+            }
+        }
+
+        function showL2Feedback(isCorrect, explanation) {
+            const fb = document.getElementById('l2-feedback');
+            fb.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-500/40', 'text-emerald-200', 'bg-red-950/40', 'border-red-500/40', 'text-red-200');
+
+            if (isCorrect) {
+                fb.classList.add('bg-emerald-950/40', 'border-emerald-500/40', 'text-emerald-200');
+                fb.innerHTML = `<div class='font-bold mb-1'><i class='fa-solid fa-check mr-1'></i> Council Representative Accepted Your Defense!</div><p class='text-xs text-gray-300'>${explanation}</p>`;
+            } else {
+                fb.classList.add('bg-red-950/40', 'border-red-500/40', 'text-red-200');
+                fb.innerHTML = `<div class='font-bold mb-1'><i class='fa-solid fa-xmark mr-1'></i> Objection Raised by Council!</div><p class='text-xs text-gray-300'>${explanation}</p>`;
+            }
+        }
+
+        function nextQuestionL2() {
+            gameState.level2.currentQuestion++;
+            renderLevel2Question();
+        }
+
+        function goToLevel3() {
+            updateStepper(3);
+            showView('l3');
+            renderLevel3Canvas();
+        }
+
+        // LEVEL 3 LOGIC: Language Detective
+        function renderLevel3Canvas() {
+            const container = document.getElementById('l3-word-container');
+            container.innerHTML = '';
+            gameState.level3.selectedIndices = [];
+
+            gameState.level3.textTokens.forEach((tokenObj, idx) => {
+                const tokenSpan = document.createElement('span');
+                tokenSpan.className = "inline-block px-1.5 py-0.5 my-1 mx-0.5 rounded cursor-pointer border border-transparent hover:border-emerald-500/40 hover:bg-slate-900 transition-all";
+                tokenSpan.innerText = tokenObj.word;
+                tokenSpan.id = `l3-token-${idx}`;
+                tokenSpan.onclick = () => toggleL3WordSelect(idx);
+                container.appendChild(tokenSpan);
+            });
+        }
+
+        function toggleL3WordSelect(tokenIdx) {
+            const selected = gameState.level3.selectedIndices;
+            const span = document.getElementById(`l3-token-${tokenIdx}`);
+
+            if (selected.includes(tokenIdx)) {
+                // Deselect
+                const pos = selected.indexOf(tokenIdx);
+                selected.splice(pos, 1);
+                span.className = "inline-block px-1.5 py-0.5 my-1 mx-0.5 rounded cursor-pointer border border-transparent hover:border-emerald-500/40 hover:bg-slate-900 transition-all";
+            } else {
+                // Select
+                selected.push(tokenIdx);
+                span.className = "inline-block px-1.5 py-0.5 my-1 mx-0.5 rounded cursor-pointer bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-bold transition-all shadow-sm";
+            }
+
+            document.getElementById('l3-selected-count').innerText = selected.length;
+        }
+
+        function submitLevel3() {
+            const tokens = gameState.level3.textTokens;
+            const selected = gameState.level3.selectedIndices;
+
+            let correctHits = 0;
+            let totalTargets = tokens.filter(t => t.isTarget).length;
+            let falseHits = 0;
+
+            tokens.forEach((token, idx) => {
+                const span = document.getElementById(`l3-token-${idx}`);
+                span.onclick = null; // Lock interactions
+
+                if (token.isTarget) {
+                    if (selected.includes(idx)) {
+                        correctHits++;
+                        span.className = "inline-block px-1.5 py-0.5 my-1 mx-0.5 rounded bg-emerald-500/30 border border-emerald-400 text-emerald-200 font-bold";
+                    } else {
+                        // Missed target
+                        span.className = "inline-block px-1.5 py-0.5 my-1 mx-0.5 rounded bg-amber-500/20 border border-amber-400 text-amber-200 font-bold";
+                    }
+                } else {
+                    if (selected.includes(idx)) {
+                        falseHits++;
+                        span.className = "inline-block px-1.5 py-0.5 my-1 mx-0.5 rounded bg-red-500/30 border border-red-400 text-red-200 line-through";
+                    }
+                }
+            });
+
+            // Calculate level 3 score (Clamped to 0-100)
+            let rawScore = Math.round(((correctHits - (falseHits * 0.5)) / totalTargets) * 100);
+            gameState.level3.score = Math.max(0, Math.min(100, rawScore));
+            gameState.level3.completed = true;
+
+            const fb = document.getElementById('l3-feedback');
+            fb.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-500/40', 'text-emerald-200', 'bg-amber-950/40', 'border-amber-500/40', 'text-amber-200');
+
+            if (gameState.level3.score >= 80) {
+                fb.classList.add('bg-emerald-950/40', 'border-emerald-500/40', 'text-emerald-200');
+                fb.innerHTML = `
+                    <div class='font-bold mb-1'><i class='fa-solid fa-bullseye mr-1'></i> Excellent Linguistic Detection! (${gameState.level3.score}%)</div>
+                    <p class='text-xs text-gray-300'>You correctly identified key persuasion drivers: Modal verbs (<em>must, ought to, should</em>) and Evaluative words (<em>harmful, crucial</em>).</p>
+                `;
+            } else {
+                fb.classList.add('bg-amber-950/40', 'border-amber-500/40', 'text-amber-200');
+                fb.innerHTML = `
+                    <div class='font-bold mb-1'><i class='fa-solid fa-circle-exclamation mr-1'></i> Linguistic Detection Score: ${gameState.level3.score}%</div>
+                    <p class='text-xs text-gray-300'>Target words included Modal Verbs (<strong>must, ought to, should</strong>) and Evaluative Adjectives (<strong>harmful, crucial</strong>). Review highlighted terms above!</p>
+                `;
+            }
+
+            document.getElementById('btn-submit-l3').classList.add('hidden');
+            document.getElementById('btn-finish-game').classList.remove('hidden');
+            updateHeaderScore();
+        }
+
+        // Live Header Score Update
+        function updateHeaderScore() {
+            let scores = [];
+            if (gameState.level1.completed) scores.push(gameState.level1.score);
+            if (gameState.level2.completed) scores.push(gameState.level2.score);
+            if (gameState.level3.completed) scores.push(gameState.level3.score);
+
+            if (scores.length === 0) return;
+            const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+            document.getElementById('header-reputation').innerText = `${avg}%`;
+        }
+
+        // SCOREBOARD & DIAGNOSTIC FEEDBACK
+        function showScoreboard() {
+            showView('scoreboard');
+            document.getElementById('level-stepper').classList.add('hidden');
+
+            const s1 = gameState.level1.score;
+            const s2 = gameState.level2.score;
+            const s3 = gameState.level3.score;
+
+            // Overall score calculation
+            const totalScore = Math.round((s1 * 0.4) + (s2 * 0.4) + (s3 * 0.2));
+
+            document.getElementById('final-score-percent').innerText = `${totalScore}%`;
+            document.getElementById('score-l1').innerText = `${s1}%`;
+            document.getElementById('score-l2').innerText = `${s2}%`;
+            document.getElementById('score-l3').innerText = `${s3}%`;
+
+            document.getElementById('bar-score-l1').style.width = `${s1}%`;
+            document.getElementById('bar-score-l2').style.width = `${s2}%`;
+            document.getElementById('bar-score-l3').style.width = `${s3}%`;
+
+            // Badge / Title assignment
+            const badgeContainer = document.getElementById('badge-container');
+            const badgeTitle = document.getElementById('badge-title');
+            const badgeIcon = document.getElementById('badge-icon');
+            const badgeDesc = document.getElementById('badge-desc');
+
+            if (totalScore >= 90) {
+                badgeContainer.className = "inline-flex items-center gap-2 px-5 py-2 rounded-full border border-cyan-400 bg-cyan-950/60 text-cyan-300 shadow-lg shadow-cyan-500/20 text-sm md:text-base font-bold mb-2";
+                badgeIcon.className = "fa-solid fa-crown text-amber-400 text-lg";
+                badgeTitle.innerText = "Master Editor & Chief Diplomat";
+                badgeDesc.innerText = "Your flawless editorial analysis swayed the entire Council! The school schedule reform was passed unanimously.";
+            } else if (totalScore >= 75) {
+                badgeContainer.className = "inline-flex items-center gap-2 px-5 py-2 rounded-full border border-emerald-400 bg-emerald-950/60 text-emerald-300 shadow-lg text-sm md:text-base font-bold mb-2";
+                badgeIcon.className = "fa-solid fa-award text-emerald-400 text-lg";
+                badgeTitle.innerText = "Senior Journalist";
+                badgeDesc.innerText = "Solid editorial work! The article was approved with minor tweaks and gained strong public support.";
+            } else if (totalScore >= 60) {
+                badgeContainer.className = "inline-flex items-center gap-2 px-5 py-2 rounded-full border border-amber-400 bg-amber-950/60 text-amber-300 shadow-lg text-sm md:text-base font-bold mb-2";
+                badgeIcon.className = "fa-solid fa-pen-nib text-amber-400 text-lg";
+                badgeTitle.innerText = "Junior Reporter";
+                badgeDesc.innerText = "The draft raised valid points, but council members noted structural ambiguities and requested revisions.";
+            } else {
+                badgeContainer.className = "inline-flex items-center gap-2 px-5 py-2 rounded-full border border-red-500 bg-red-950/60 text-red-300 shadow-lg text-sm md:text-base font-bold mb-2";
+                badgeIcon.className = "fa-solid fa-triangle-exclamation text-red-400 text-lg";
+                badgeTitle.innerText = "Rookie Intern";
+                badgeDesc.innerText = "The article draft was rejected due to misclassified arguments and weak linguistic persuasion.";
+            }
+
+            // Diagnostic Analysis Generation
+            generateDiagnosticFeedback(s1, s2, s3, totalScore);
+        }
+
+        function generateDiagnosticFeedback(s1, s2, s3, total) {
+            const diag = document.getElementById('diagnostic-content');
+            diag.innerHTML = '';
+
+            // Strengths section
+            let strengths = [];
+            if (s1 >= 80) strengths.push("A strong grasp of Hortatory Exposition structure (Thesis, Arguments, Recommendation).");
+            if (s2 >= 80) strengths.push("High capability in extracting detailed facts and evaluating implicit context from arguments.");
+            if (s3 >= 80) strengths.push("Keen eye for modal verbs and evaluative vocabulary that amplify persuasive intent.");
+
+            if (strengths.length === 0) {
+                strengths.push("You completed all three quest levels and gained foundational familiarity with editorial text structures.");
+            }
+
+            // Improvement Areas
+            let improvements = [];
+            if (s1 < 80) improvements.push("<strong>Structural Confusion:</strong> Remember that Arguments supply facts/proofs ('why'), while Recommendations propose concrete solutions ('what to do / should').");
+            if (s2 < 80) improvements.push("<strong>Fact-Checking Precision:</strong> Carefully re-read section details to ensure your answers directly align with textual evidence.");
+            if (s3 < 80) improvements.push("<strong>Persuasive Vocabulary:</strong> Look out for modal verbs like <em>should, ought to, must</em> and evaluative words like <em>crucial, harmful</em>.");
+
+            // Construct HTML Output
+            diag.innerHTML = `
+                <div class="p-3.5 bg-slate-950 rounded-lg border border-emerald-500/20">
+                    <h5 class="text-xs font-mono-code font-bold text-emerald-400 uppercase mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-thumbs-up"></i> Editorial Strengths
+                    </h5>
+                    <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                        ${strengths.map(s => `<li>${s}</li>`).join('')}
+                    </ul>
+                </div>
+
+                ${improvements.length > 0 ? `
+                <div class="p-3.5 bg-slate-950 rounded-lg border border-amber-500/20">
+                    <h5 class="text-xs font-mono-code font-bold text-amber-400 uppercase mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb"></i> Key Recommendations for Next Attempt
+                    </h5>
+                    <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                        ${improvements.map(i => `<li>${i}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+
+                <div class="p-3.5 bg-slate-950 rounded-lg border border-cyan-500/20 text-xs text-cyan-200/90 leading-relaxed">
+                    <strong>Chief Editor Note:</strong> Hortatory Exposition texts are designed to spark real action. Master the usage of <em>'should / ought to'</em> in your recommendations to become an influential writer!
+                </div>
+            `;
+        }
+
+        // Reset Game
+        function resetGame() {
+            gameState.level1 = {
+                userAssignments: [null, null, null],
+                correctAssignments: ['Thesis', 'Arguments', 'Recommendation'],
+                score: 0,
+                completed: false
+            };
+            gameState.level2.currentQuestion = 0;
+            gameState.level2.score = 0;
+            gameState.level2.userAnswers = [];
+            gameState.level2.completed = false;
+
+            gameState.level3.selectedIndices = [];
+            gameState.level3.score = 0;
+            gameState.level3.completed = false;
+
+            // Reset UI states
+            document.getElementById('header-reputation').innerText = "100%";
+            for (let i = 0; i < 3; i++) {
+                const card = document.getElementById(`block-card-${i}`);
+                const tag = document.getElementById(`block-tag-${i}`);
+                if (card && tag) {
+                    card.className = "p-4 rounded-xl border border-gray-800 bg-slate-950 transition-all";
+                    tag.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-gray-800 text-gray-400";
+                    tag.innerText = "Unclassified";
+                }
+            }
+            document.getElementById('btn-submit-l1').classList.remove('hidden');
+            document.getElementById('btn-next-l1').classList.add('hidden');
+            document.getElementById('l1-feedback').classList.add('hidden');
+
+            document.getElementById('btn-submit-l3').classList.remove('hidden');
+            document.getElementById('btn-finish-game').classList.add('hidden');
+            document.getElementById('l3-feedback').classList.add('hidden');
+
+            showView('intro');
+        }
+    </script>
+</body>
+</html>
